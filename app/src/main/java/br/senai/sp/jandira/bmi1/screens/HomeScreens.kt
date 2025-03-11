@@ -58,7 +58,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.SpaceEvenly
         ){
             Image(
-                painter = painterResource(R.drawable.boxe),
+                painter = painterResource(R.drawable.atleta),
                 contentDescription = stringResource(R.string.logo),
                 modifier = Modifier
                     .padding(vertical = 60.dp)
