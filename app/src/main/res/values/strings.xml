@@ -11,6 +11,14 @@
     <string name="Weight">Weight</string>
     <string name="Height">Height</string>
     <string name="Calculate">Calculate</string>
+    <string name="Result">Your BMI Result</string>
+    <string name="Obesity">You have Class I Obesity.</string>
+    <string name="High">High</string>
+    <string name="New_Calc">New Calc</string>
+    <string name="Peso1">30,6</string>
+    <string name="Peso2">50</string>
+    <string name="Peso3">97 Kg</string>
+    <string name="Peso4">178 cm</string>
 
 
 </resources>
