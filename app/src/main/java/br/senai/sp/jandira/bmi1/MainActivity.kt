@@ -4,13 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.bmi1.screens.BMIResultScreen
+import br.senai.sp.jandira.bmi1.screens.HomeScreen
+import br.senai.sp.jandira.bmi1.screens.UserDataScreen
 import br.senai.sp.jandira.bmi1.ui.theme.BMI1Theme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +18,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BMI1Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val controleDeNavegacao = rememberNavController()
+                NavHost(
+                    navController = controleDeNavegacao,
+                    startDestination = "home"
+                ){
+                   composable(route = "home"){ HomeScreen(controleDeNavegacao) }
+                   composable(route = "user_data"){ UserDataScreen(controleDeNavegacao) }
+                   composable(route = "bmi_result"){ BMIResultScreen(controleDeNavegacao) }
                 }
+
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BMI1Theme {
-        Greeting("Android")
-    }
-}

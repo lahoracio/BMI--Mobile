@@ -40,10 +40,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi1.R
 
 @Composable
-fun UserDataScreen (modifier: Modifier = Modifier) {
+fun UserDataScreen(controleDeNavegacao: NavHostController?) {
 
     var nomeState = remember {
         mutableStateOf(value = "")
@@ -263,7 +264,9 @@ fun UserDataScreen (modifier: Modifier = Modifier) {
                     }
 
                     Button(
-                        onClick = {},
+                        onClick = {
+                            controleDeNavegacao?.navigate(route = "bmi_result")
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp)
@@ -292,5 +295,5 @@ fun UserDataScreen (modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 private fun UserDataScreenPreview() {
-    UserDataScreen()
+    UserDataScreen(null)
 }

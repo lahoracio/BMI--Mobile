@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.bmi1.screens
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,18 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Balance
-import androidx.compose.material.icons.filled.Height
-import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -35,19 +27,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi1.R
 
 @Composable
-fun UserBMIResultScreen (modifier: Modifier = Modifier) {
+fun BMIResultScreen(controleDeNavegacao: NavHostController?) {
 
     var nomeState = remember {
         mutableStateOf(value = "")
@@ -57,7 +46,12 @@ fun UserBMIResultScreen (modifier: Modifier = Modifier) {
 
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Blue)
+            .background(brush = Brush.horizontalGradient(
+                listOf(
+                    Color.Magenta,
+                    Color.Blue
+                )
+            ))
     ){
         Column (
             modifier = Modifier
@@ -221,11 +215,16 @@ fun UserBMIResultScreen (modifier: Modifier = Modifier) {
                             .weight(0.7f)
                     ) {
                         Button(
-                            onClick = {},
+                            onClick = {
+                                controleDeNavegacao?.navigate(route = "user_data")
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 40.dp)
-                                .height(60.dp)
+                                .height(60.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Blue
+                            )
 
 
                         ) {
@@ -233,7 +232,9 @@ fun UserBMIResultScreen (modifier: Modifier = Modifier) {
 
                                 text = stringResource(R.string.New_Calc),
                                 fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+
 
                             )
                         }
@@ -260,6 +261,6 @@ fun UserBMIResultScreen (modifier: Modifier = Modifier) {
 
 @Preview(showSystemUi = true)
 @Composable
-private fun UserBMIResultScreenPreview() {
-    UserBMIResultScreen()
+private fun BMIResultScreenPreview() {
+    BMIResultScreen(null)
 }

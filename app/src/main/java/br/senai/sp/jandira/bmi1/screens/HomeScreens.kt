@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.bmi1.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -34,10 +36,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi1.R
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(controleDeNavegacao: NavHostController?) {
+
+    var context = LocalContext.current
 
     var nomeState = remember {
         mutableStateOf(value = "")
@@ -46,17 +51,19 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = Brush.horizontalGradient(
-                listOf(Color.Blue, Color.Magenta)
-            ))
-    ){
-        Column (
+            .background(
+                brush = Brush.horizontalGradient(
+                    listOf(Color.Blue, Color.Magenta)
+                )
+            )
+    ) {
+        Column(
             modifier = Modifier
                 .fillMaxSize(),
 
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
-        ){
+        ) {
             Image(
                 painter = painterResource(R.drawable.atleta),
                 contentDescription = stringResource(R.string.logo),
@@ -79,22 +86,22 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     .height(150.dp),
                 shape = RoundedCornerShape(
                     topStart = 48.dp,
-                    topEnd  = 48.dp
+                    topEnd = 48.dp
                 )
-            ){
-                Column (
+            ) {
+                Column(
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(30.dp)
 
-                ){
-                    Column (
+                ) {
+                    Column(
                         modifier = Modifier
                             .padding(top = 30.dp)
                             .padding(start = 30.dp)
-                    ){
+                    ) {
                         Text(
                             text = stringResource(R.string.your_name),
                             fontSize = 16.sp,
@@ -134,13 +141,16 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                             )
                         )
                         Button(
-                            onClick = {},
+                            onClick = {
+                                controleDeNavegacao?.navigate("user_data")
+                            },
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier
                                 .padding(top = 230.dp)
                                 .padding(start = 200.dp)
-                        ){
-                            Text(text = stringResource(R.string.next),
+                        ) {
+                            Text(
+                                text = stringResource(R.string.next),
                                 fontSize = 20.sp
                             )
                             Icon(
@@ -164,5 +174,5 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(null)
 }
