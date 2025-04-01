@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.bmi1.screens
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -46,9 +48,30 @@ import br.senai.sp.jandira.bmi1.R
 @Composable
 fun UserDataScreen(controleDeNavegacao: NavHostController?) {
 
-    var nomeState = remember {
-        mutableStateOf(value = "")
-    }
+    //Obtendo o contexto da tela atual
+    val context = LocalContext.current
+
+    //Abrir ou criar um arquivo SharedPreferences
+    val userFile =  context
+        .getSharedPreferences(
+            "user_file", Context.MODE_PRIVATE
+        )
+
+    //criamos ou editar responsavel por editar arquivo
+    val editor = userFile.edit()
+    val userName = userFile.getString("user_name", "user not found")
+
+
+    val nomeState = remember {mutableStateOf(value = "")}
+    val nomeAge = remember {mutableStateOf(value = "")}
+    val nomeWeight= remember {mutableStateOf(value = "")}
+    val nomeHeight = remember {mutableStateOf(value = "")}
+
+    val selectColorState = remember { mutableStateOf(Color.Blue)}
+    val unselectColorState = remember { mutableStateOf(Color.LightGray)}
+
+    val isMaleOnClicked = remember { mutableStateOf(false) }
+    val isFemaleOnClicked = remember { mutableStateOf(false) }
 
     Box(
 
@@ -63,7 +86,7 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
         ){
 
             Text(
-                text = stringResource(R.string.Hi),
+                text = "${stringResource(R.string.Hi)}, $userName!",
                 fontSize = 27.sp,
                 color = Color.White,
                 modifier = Modifier
@@ -129,10 +152,13 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
                             }
 
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    isMaleOnClicked.value = true
+                                    isFemaleOnClicked.value = false
+                                },
                                 shape = RoundedCornerShape(30.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Blue,
+                                    containerColor = if (isMaleOnClicked.value) selectColorState.value else unselectColorState.value
                                     )
 
                             )
@@ -169,10 +195,13 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
                             }
 
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    isMaleOnClicked.value = false
+                                    isFemaleOnClicked.value = true
+                                },
                                 shape = RoundedCornerShape(30.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Magenta,
+                                    containerColor = if (isFemaleOnClicked.value) selectColorState.value else unselectColorState.value
                                 )
                             )
                             {
@@ -187,8 +216,10 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
                     )
                     {
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = nomeAge.value,
+                            onValueChange = {
+                                nomeAge.value = it
+                            },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
@@ -212,8 +243,10 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
 
                         )
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = nomeWeight.value,
+                            onValueChange = {
+                                nomeWeight.value = it
+                            },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
@@ -237,8 +270,10 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
 
                         )
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = nomeHeight.value,
+                            onValueChange = {
+                                nomeHeight.value = it
+                            },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
@@ -265,6 +300,10 @@ fun UserDataScreen(controleDeNavegacao: NavHostController?) {
 
                     Button(
                         onClick = {
+                            editor.putInt("user_age", nomeAge.value.toInt())
+                            editor.putInt("user_height", nomeHeight.value.toInt())
+                            editor.putInt("user_weight", nomeHeight.value.toInt())
+                            editor.apply()
                             controleDeNavegacao?.navigate(route = "bmi_result")
                         },
                         modifier = Modifier

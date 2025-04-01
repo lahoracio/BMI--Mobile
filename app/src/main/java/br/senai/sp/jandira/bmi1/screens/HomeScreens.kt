@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.bmi1.screens
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,12 +43,23 @@ import br.senai.sp.jandira.bmi1.R
 @Composable
 fun HomeScreen(controleDeNavegacao: NavHostController?) {
 
-    var context = LocalContext.current
 
     var nomeState = remember {
         mutableStateOf(value = "")
 
     }
+
+    //Obtendo o contexto da tela atual
+    val context = LocalContext.current
+
+    //Abrir ou criar um arquivo SharedPreferences
+    val userFile =  context
+        .getSharedPreferences(
+            "user_file", Context.MODE_PRIVATE
+        )
+
+    //criamos ou editar responsavel por editar arquivo
+    val editor = userFile.edit()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +74,7 @@ fun HomeScreen(controleDeNavegacao: NavHostController?) {
                 .fillMaxSize(),
 
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
                 painter = painterResource(R.drawable.atleta),
@@ -99,8 +111,7 @@ fun HomeScreen(controleDeNavegacao: NavHostController?) {
                 ) {
                     Column(
                         modifier = Modifier
-                            .padding(top = 30.dp)
-                            .padding(start = 30.dp)
+                            .fillMaxWidth()
                     ) {
                         Text(
                             text = stringResource(R.string.your_name),
@@ -117,8 +128,7 @@ fun HomeScreen(controleDeNavegacao: NavHostController?) {
                                 Text(text = "Digite o seu nome.")
                             },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 12.dp),
+                                .fillMaxWidth(),
                             //leading é começo e trainibng é fim
                             leadingIcon = {
                                 Icon(
@@ -142,6 +152,9 @@ fun HomeScreen(controleDeNavegacao: NavHostController?) {
                         )
                         Button(
                             onClick = {
+                                editor.putString("user_name", nomeState.value)
+                                editor.putString("user_city", "Jandira")
+                                editor.apply()
                                 controleDeNavegacao?.navigate("user_data")
                             },
                             shape = RoundedCornerShape(10.dp),
