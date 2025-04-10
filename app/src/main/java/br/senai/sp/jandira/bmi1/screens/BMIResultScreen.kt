@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi1.R
+import br.senai.sp.jandira.bmi1.model.bmiCalculator
+import java.util.Locale
 
 @Composable
 fun BMIResultScreen(controleDeNavegacao: NavHostController?) {
@@ -48,9 +50,11 @@ fun BMIResultScreen(controleDeNavegacao: NavHostController?) {
     val nomeHeight= userFile.getInt("user_height", 0)
 
 
-    var nomeState = remember {
-        mutableStateOf(value = "")
-    }
+
+
+
+
+    var resultbmi = bmiCalculator(nomeWeight, nomeHeight.toDouble())
 
     Box(
 
@@ -114,12 +118,7 @@ fun BMIResultScreen(controleDeNavegacao: NavHostController?) {
                             shape = CircleShape,
                             border = BorderStroke(
                                 width = 5.dp,
-                                brush = Brush.horizontalGradient(
-                                    listOf(
-                                        Color.Magenta,
-                                        Color.Blue
-                                    )
-                                )
+                                color = resultbmi.color
                             )
                         ) {
                             Box(
@@ -128,8 +127,10 @@ fun BMIResultScreen(controleDeNavegacao: NavHostController?) {
                                     .fillMaxSize()
                                     .background(Color.White)
                             ) {
+
+                                val bmiValue = resultbmi.bmiValues.second
                                 Text(
-                                    text = stringResource(R.string.Peso1),
+                                    text = String.format(Locale.getDefault(), "%.1f", bmiValue),
                                     fontSize = 40.sp,
                                     fontWeight = FontWeight.Bold,
                                 )
@@ -138,7 +139,7 @@ fun BMIResultScreen(controleDeNavegacao: NavHostController?) {
                         }
 
                         Text(
-                            text = stringResource(R.string.Obesity),
+                            text = resultbmi.bmiValues.first,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
