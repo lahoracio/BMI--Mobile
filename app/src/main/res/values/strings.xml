@@ -15,16 +15,28 @@
     <string name="Obesity">You have Class I Obesity.</string>
     <string name="High">High</string>
     <string name="New_Calc">New Calc</string>
+
     <string name="Peso1">30,6</string>
     <string name="Peso2">50</string>
     <string name="Peso3">97 Kg</string>
     <string name="Peso4">178 cm</string>
+
     <string name="under_weight">you are below your ideal weight</string>
     <string name="normal_weight">you are normal slightly overweight</string>
     <string name="over_weight">you are slightly overweight</string>
     <string name="class1_weight">you have Class I obesity</string>
     <string name="class2_weight">you have Class II obesity</string>
     <string name="class3_weight">you have Class III obesity</string>
+
+
+    <string name="underweight">Underweight</string>
+    <string name="normal">Normal</string>
+    <string name="overweight">Overweight</string>
+    <string name="obesity1">Obesity Class I</string>
+    <string name="obesity2">Obesity Class II</string>
+    <string name="obesity3">Obesity Class III</string>
+
+
 
 
 </resources>
